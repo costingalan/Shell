@@ -8,9 +8,9 @@
 ##################################################
 # Set Script Variables
 #
-DATE=`date +%m%d%Y`
+DATE=$(date +%m%d%Y)
 DISKS_TO_MONITOR="/dev/sda1"
-MAIL=`which mutt`
+MAIL=$(which mutt)
 MAIL_TO=user
 REPORT=/home/user/Documents/Snapshot_Stats_$DATE.rpt
 ####################################################
@@ -29,7 +29,7 @@ echo
 ####################################################
 #Date Stamp the Report
 #
-echo -e "Today is `date +%m/%d/%Y`"
+echo -e "Today is $(date +%m/%d/%Y)"
 echo
 #
 ####################################################
@@ -62,7 +62,7 @@ free | sed -n '2p' | gawk 'x = int(($3 / $2) *100) {print x}' | sed 's/$/%/'
 # 4) Gather Number of Zombie Processes
 #
 echo
-ZOMBIE_CHECK=`ps -al | gawk '{print $2,$4}' | grep Z`
+ZOMBIE_CHECK=$(ps -al | gawk '{print $2,$4}' | grep Z)
 #
 if [ $ZOMBIE_CHECK = ""]
 then
