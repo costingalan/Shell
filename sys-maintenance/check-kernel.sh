@@ -1,4 +1,4 @@
-#/bin/bash
+#!/bin/bash
 ##################################################
 # Name: check-kernel.sh
 # Description: Checks running kernel vs newest installed, emails if diffrent.
