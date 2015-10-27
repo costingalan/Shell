@@ -8,8 +8,8 @@
 ##################################################
 # Set Variables
 #
-IP=`hostname -I`
-HOSTNAME=`hostname`
+IP=$(hostname -I)
+HOSTNAME=$(hostname)
 ##################################################
 # Modifiable Variables
 #
@@ -19,8 +19,8 @@ HOST="127.0.0.1"
 ##################################################
 # Mail Settings
 #
-MAIL=`which mailx`
-MAILTO="user@email.com"
+MAIL=$(which mailx)
+MAILTO="galan.costin@gmail.com"
 ##################################################
 # Logging Settings
 #
@@ -34,7 +34,7 @@ echo "
               
 Hostname : $HOSTNAME 
 IP : $IP
-Date-Time : `date`
+Date-Time : $(date)
 
 ---------------------------------------                
 
