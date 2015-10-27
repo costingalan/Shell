@@ -7,12 +7,12 @@
 REPORT_FILE=/blah/docs/capstats.csv
 TEMP_FILE=/blah/tmp/capstats.html
 #
-DATE=`date +%m/%d/%Y`
+DATE=$(date +%m/%d/%Y)
 #
-MAIL_TO="user@email.com"
+MAIL_TO="galan.costin@gmail.com"
 #
-HOSTNAME=`hostname`
-IP=`/sbin/ifconfig eth0 | grep "inet addr" | gawk -F: '{print $2}' | gawk '{print $1}'`
+HOSTNAME=$(hostname)
+IP=$(/sbin/ifconfig eth0 | grep "inet addr" | gawk -F: '{print $2}' | gawk '{print $1}')
 ###########################################################
 # Create Head and CSS Presentation
 echo "<html>" > $TEMP_FILE
@@ -127,11 +127,11 @@ echo "</thead>" >> $TEMP_FILE
 # Place Performance Stats in Report
 #
 echo "<tbody>" >> $TEMP_FILE
-cat $REPORT_FILE | gawk -F, '{
+gawk -F, '{
 printf "<tr><td>%s</td><td>%s</td><td>%s</td>", $1, $2, $3;
 printf "<td>%s</td><td>%s</td><td>%s</td>", $4, $5, $6;
 printf "<td>%s</td><td>%s</td><td>%s</td><td>%s</td>\n</tr>\n", $7, $8, $9, $10;
-}' >> $TEMP_FILE
+}' <"$REPORT_FILE" >> $TEMP_FILE
 #
 echo "</tbody></table></body></html>" >> $TEMP_FILE
 #
