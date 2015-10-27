@@ -15,7 +15,7 @@ ASK_COUNT=0
 #
 while [ -z "$ANSWER" ] #While no answer is given, keep asking.
 do
-	ASK_COUNT=$[ $ASK_COUNT + 1 ]
+  ASK_COUNT=$(($ASK_COUNT + 1 ))
 #
 	case $ASK_COUNT in # IF user gives no answer in time alloted
 	2)
@@ -45,10 +45,10 @@ do
 #
 	if [ -n "$LINE2" ] 
 	then	# print 2 lines
-		echo $LINE1
-		echo -e $LINE2" \c"
+		echo "$LINE1"
+		echo -e "$LINE2 \c"
 	else	#  print 1 line
-		echo -e $LINE1" \c"
+		echo -e "$LINE1 \c"
 	fi
 #
 # Allow 60 seconds to answer before time-out
@@ -72,8 +72,8 @@ y|Y|YES|yes|Yes|yEs|yeS|YEs|yES )
 *)
 # IF user answers anything but "yes", exit script
 	echo
-	echo $EXIT_LINE1
-	echo $EXIT_LINE2
+	echo "$EXIT_LINE1"
+	echo "$EXIT_LINE2"
 	echo
 	exit
 ;;
@@ -115,7 +115,7 @@ process_answer
 ##################################################################
 # Check that USER_ACCOUNT is really an account on the system
 #
-USER_ACCOUNT_RECORD=$(cat /etc/passwd | grep -w $USER_ACCOUNT)
+USER_ACCOUNT_RECORD=$(grep -w "$USER_ACCOUNT" < /etc/passwd)
 #
 if [ $? -eq 1 ]		# If the account is not found, exit script
 then	
@@ -126,7 +126,7 @@ echo "Account, $USER_ACCOUNT, not found. "
 fi
 	echo
 	echo "I found the record:"
-	echo $USER_ACCOUNT_RECORD
+	echo "$USER_ACCOUNT_RECORD"
 	echo
 #
 LINE1="Is this the correct User Account? [y/n]"
@@ -149,7 +149,7 @@ echo
 echo "$USER_ACCOUNT has the following process running: "
 echo
 #
-ps -u $USER_ACCOUNT	#List user processes running.
+ps -u "$USER_ACCOUNT"	#List user processes running.
 
 case $? in
 1)	# No processes running for this account currently running."
@@ -174,24 +174,24 @@ get_answer
 	trap "rm $USER_ACCOUNT_Running_Process.rpt" SIGTERM SIGINT SIGOUT
 	#
 	# List user processes running
-	ps -u $USER_ACCOUNT > $USER_ACCOUNT_Running_Process.rpt
+	ps -u "$USER_ACCOUNT" > "$USER_ACCOUNT_Running_Process.rpt"
 	#
-	exec < $USER_ACCOUNT_Running_Process.rpt	# Make report Std input
+	exec < "$USER_ACCOUNT_Running_Process.rpt"	# Make report Std input
 	#
 	read USER_PROCESS_REC	# First record will be blank
 	read USER_PROCESS_REC
 	#
-	while [ $? -eq0 ]
+	while [ $? -eq 0 ]
 		do
 		# obtain PID
-		USER_PID=$(echo $USER_PROCESS_REC | cut -d " " -f1)
-		kill -9 $USER_PID
+		USER_PID=$(echo "$USER_PROCESS_REC" | cut -d " " -f1)
+		kill -9 "$USER_PID"
 		echo "Killed process $USER_PID"
 		read USER_PROCESS_REC
 		done
 		#
 		echo
-		rm $USER_ACCOUNT_Running_Process.rpt	#Remove temp report.
+		rm "$USER_ACCOUNT_Running_Process.rpt"	#Remove temp report.
 	;;
 	*)	# If user answers anything but "yes", do not kill.
 		echo
@@ -217,15 +217,15 @@ echo " 2) Change the files' ownership to a current user account."
 echo
 echo "Please wait. This may take a while..."
 #
-REPORT_DATE=`date +%y%m%d`
-REPORT_FILE=$USER_ACCOUNT"_Files_"$REPORT_DATE".rpt"
+REPORT_DATE=$(date +%y%m%d)
+REPORT_FILE="$USER_ACCOUNT_Files_$REPORT_DATE.rpt"
 #
-find / -user $USER_ACCOUNT > $REPORT_FILE 2>/dev/null
+find / -user "$USER_ACCOUNT" > "$REPORT_FILE" 2>/dev/null
 #
 echo
 echo "Report is complete."
 echo "Name of report:	$REPORT_FILE"
-echo "Location of report:	`pwd`"
+echo "Location of report:	$(pwd)"
 echo
 #############################################
 # - Remove User Account
@@ -243,7 +243,7 @@ EXIT_LINE1="Since you do not wish to remove the user account,"
 EXIT_LINE2="$USER_ACCOUNT at this time, exiting script..."
 process_answer
 #
-userdel $USER_ACCOUNT	# delete user account
+userdel "$USER_ACCOUNT"	# delete user account
 echo "User account, $USER_ACCOUNT, has been removed"
 echo
 # EOF
