@@ -25,7 +25,7 @@
 ##################################################
 # Set Base Variables
 #
-DATE=`date +%m/%d/%Y`
+DATE=$(date +%m/%d/%Y)
 BASELOG="/var/log"
 BASESPOOL="/var/spool"
 BASEMAIL="/var/spool/mail"

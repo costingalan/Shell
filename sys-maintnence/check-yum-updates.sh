@@ -8,7 +8,7 @@
 ##################################################
 # Set Variables
 #
-EMAIL="changeme@email.com"
+EMAIL="galan.costin@gmail.com"
 YUMTMP="/tmp/yum-check-update.$$"
 YUM="/usr/bin/yum"
 $YUM check-update >& $YUMTMP
@@ -25,8 +25,8 @@ exit 0
 ;;
 *)
 DATE=$(date)
-NUMBERS=$(cat $YUMTMP | egrep '(.i386|.x86_64|.noarch|.src)' | wc -l)
-UPDATES=$(cat $YUMTMP | egrep '(.i386|.x86_64|.noarch|.src)')
+NUMBERS=$(egrep '(.i386|.x86_64|.noarch|.src)' < $YUMTMP | wc -l)
+UPDATES=$(egrep '(.i386|.x86_64|.noarch|.src)' < $YUMTMP)
 
 echo "
 There are $NUMBERS updates available on host $HOSTNAME at $DATE
